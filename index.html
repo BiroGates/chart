@@ -1,19 +1,23 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="./css/index.css">
-    <title>ChartJs</title>
+    <title>Simulação de Preços de Ações</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="./js/index.js"></script>
 </head>
 <body>
-    <div class="container">
-        <canvas id='chart'></canvas>
-        <button onclick="addData()">Add Data</button>
-        <button onclick="removeData()">Remove Data</button>
+    <div>
+        <label for="trend">Tendência:</label>
+        <select id="trend" onchange="updateTrend()">
+            <option value="up">Subir</option>
+            <option value="down">Cair</option>
+            <option value="neutral">Neutro</option>
+        </select>
+        <label for="mu">Valor de mu:</label>
     </div>
-    <script src='./node_modules/chart.js/dist/Chart.js'></script>
-    <script src="./js/index.js"></script>
+    <canvas id="stockChart" width="800" height="400"></canvas>
+    <script src="js/test.js"></script>
 </body>
 </html>

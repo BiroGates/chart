@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gráfico com Chart.js</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div style="width: 80%; margin: auto;">
+        <canvas id="myChart"></canvas>
+    </div>
+
+    <script>
+        let chart;
+
+        // Função para buscar dados e renderizar o gráfico
+        async function fetchChartData() {
+            const response = await fetch('/dados');
+            const data = await response.json();
+            console.log(data);
+
+            const labels = data.map(d => d.at);
+            const values = data.map(d => d.price);
+
+            if (!chart) {
+                // Criar o gráfico na primeira vez
+                const ctx = document.getElementById('myChart').getContext('2d');
+                chart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Meu Gráfico de Linhas',
+                            data: values,
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            fill: false,
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        animation: {
+                            duration: 0,
+                        },
+                        scales: {
+                            x: {
+                                display: true,
+                                title: {
+                                    display: true,
+                                    text: 'Tempo (Dias de Negociação)'
+                                }
+                            },
+                            y: {
+                                display: true,
+                                title: {
+                                display: true,
+                                    text: 'Preço'
+                                }
+                            }
+                        }
+                    }
+                });
+            } else {
+                // Atualizar o gráfico se ele já existe
+                chart.data.labels = labels;
+                chart.data.datasets[0].data = values;
+                chart.update();
+            }
+        }
+
+        // Buscar dados a cada 5 segundos
+        fetchChartData(); // Chamada inicial
+        setInterval(fetchChartData, 2000); // Chama a função a cada 5 segundos
+    </script>
+</body>
+</html>
